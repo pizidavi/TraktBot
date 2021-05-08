@@ -1,0 +1,334 @@
+{
+  "FLAG": {
+    "it": "🇮🇹",
+    "en": "🇺🇸"
+  },
+  "HOME": {
+    "it": "Home",
+    "en": "Home"
+  },
+  "SUCCESS": {
+    "it": "Login avvenuto con successo",
+    "en": "Success"
+  },
+  "ERROR": {
+    "it": "Errore",
+    "en": "Error"
+  },
+  "NOT_FOUND": {
+    "it": "Non trovato",
+    "en": "Not found"
+  },
+  "COMMAND_NOT_FOUND": {
+    "it": "Comando non trovato",
+    "en": "Command not found"
+  },
+  "INTERNAL_ERROR": {
+    "it": "Errore Interno",
+    "en": "Internal Error"
+  },
+  "RATE_LIMIT_EXCEEDED": {
+    "it": "Limite rischieste superato",
+    "en": "Rate Limit Exceeded"
+  },
+  "SERVICE_ERROR": {
+    "it": "Errore Servizio Trakt",
+    "en": "Trakt Service Error"
+  },
+  "SERVICE_UNAVAILABLE": {
+    "it": "Servizio Trakt non disponibile",
+    "en": "Trakt Service Unavailable"
+  },
+  "TEMPORARY_CANT_REMOVE_SHOW_FROM_WATCHED": {
+    "it": "Al momento non puoi rimuovere una Serie TV dalla lista dei guardati",
+    "en": "At the moment you can't remove a TV Show from the Watched"
+  },
+  "MAKE_LOGIN": {
+    "it": "Esegui il login su Trakt.TV con il pulsante sotto",
+    "en": "Login on Trakt.TV with the button below"
+  },
+  "LOGIN": {
+    "it": "Login",
+    "en": "Login"
+  },
+  "LOGIN_FAIL": {
+    "it": "Login fallito",
+    "en": "Login failed"
+  },
+  "CLOSE_WINDOW": {
+    "it": "Chiudi questa finestra per continuare",
+    "en": "Close this window to go on"
+  },
+  "SEND_START": {
+    "it": "Invia \/start al bot e riprova",
+    "en": "Send the \/start command to the bot and try again"
+  },
+  "DELETED": {
+    "it": "Elimina",
+    "en": "Delete"
+  },
+  "DELETED_MESSAGE": {
+    "it": "Messaggio eliminato",
+    "en": "Deleted message"
+  },
+  "DELETE_ACCOUNT": {
+    "it": "Elimina Account",
+    "en": "Deleted Account"
+  },
+  "COOMING_SOON": {
+    "it": "Prossimamente",
+    "en": "Cooming Soon"
+  },
+  "SEARCH": {
+    "it": "Cerca",
+    "en": "Search"
+  },
+  "WATCHLIST": {
+    "it": "Da Vedere",
+    "en": "Watchlist"
+  },
+  "WATCHED": {
+    "it": "Guardati",
+    "en": "Watched"
+  },
+  "CHECK-IN": {
+    "it": "Check-in",
+    "en": "Check-in"
+  },
+  "CHECK-IN_EPISODE": {
+    "it": "Check-in Episodio",
+    "en": "Check-in Episode"
+  },
+  "CHECK-IN_STARTED": {
+    "it": "Check-in avviato",
+    "en": "Check-in started"
+  },
+  "CHECK-IN_ALREADY_STARTED": {
+    "it": "Check-in già in corso",
+    "en": "Check-in already running"
+  },
+  "SERIES_WATCHED": {
+    "it": "Serie TV Guardate",
+    "en": "TV Series Watched"
+  },
+  "EPISODES_WATCHED": {
+    "it": "Episodi Guardati",
+    "en": "Episode Watched"
+  },
+  "ON_AIR_TODAY": {
+    "it": "In Onda oggi",
+    "en": "On Air today"
+  },
+  "NEW_EPISODE_ON_AIR": {
+    "it": "Nuovo Episodio In Onda",
+    "en": "New Episode On Air"
+  },
+  "NEW_EPISODES_ON_AIR": {
+    "it": "Nuovi Episodi In Onda",
+    "en": "New Episodes On Air"
+  },
+  "NEXT_EPISODE_WATCHED": {
+    "it": "Prossimo Episodio Visto",
+    "en": "Next Episode Watched"
+  },
+  "NO_NEXT_EPISODE_FOUND": {
+    "it": "Nessun episodio successivo trovato",
+    "en": "Next Episode Watched"
+  },
+  "HISTORY": {
+    "it": "Cronologia",
+    "en": "History"
+  },
+  "CALENDAR": {
+    "it": "Calendario",
+    "en": "Calendar"
+  },
+  "PROFILE": {
+    "it": "Profilo",
+    "en": "Profile"
+  },
+  "REMINDER": {
+    "it": "Promemoria",
+    "en": "Reminder"
+  },
+  "REMINDERS": {
+    "it": "Promemoria",
+    "en": "Reminders"
+  },
+  "SETTINGS": {
+    "it": "Impostazioni",
+    "en": "Settings"
+  },
+  "CUSTOM_LIST": {
+    "it": "Liste",
+    "en": "Custom Lists"
+  },
+  "CHOOSE_TYPE": {
+    "it": "Cosa vuoi vedere?",
+    "en": "What do you want to see?"
+  },
+  "ALL": {
+    "it": "Tutto",
+    "en": "All"
+  },
+  "MOVIE": {
+    "it": "Film",
+    "en": "Movie"
+  },
+  "MOVIES": {
+    "it": "Film",
+    "en": "Movies"
+  },
+  "SHOW": {
+    "it": "Serie TV",
+    "en": "Show"
+  },
+  "SHOWS": {
+    "it": "Serie TV",
+    "en": "Shows"
+  },
+  "EPISODE": {
+    "it": "Episodio",
+    "en": "Episode"
+  },
+  "EPISODES": {
+    "it": "Episodi",
+    "en": "Episodes"
+  },
+  "NEXT_EPISODE": {
+    "it": "Prossimo Episodio",
+    "en": "Next Episode"
+  },
+  "BACK": {
+    "it": "Indietro",
+    "en": "Back"
+  },
+  "ADD": {
+    "it": "Aggiungi",
+    "en": "Add"
+  },
+  "REMOVE": {
+    "it": "Rimuovi",
+    "en": "Remove"
+  },
+  "ADDED": {
+    "it": "Aggiunto",
+    "en": "Added"
+  },
+  "REMOVED": {
+    "it": "Rimosso",
+    "en": "Removed"
+  },
+  "SAVED": {
+    "it": "Salvato",
+    "en": "Saved"
+  },
+  "DAYS": {
+    "it": "Giorni",
+    "en": "Days"
+  },
+  "HOURS": {
+    "it": "Ore",
+    "en": "Hours"
+  },
+  "MINUTES": {
+    "it": "Minuti",
+    "en": "Minutes"
+  },
+  "VISION_TIME": {
+    "it": "Tempo di Visione",
+    "en": "Vision Time"
+  },
+  "TOTAL_VISION_TIME": {
+    "it": "Tempo Totale di Visione",
+    "en": "Total Vision Time"
+  },
+  "END_AT": {
+    "it": "Termine alle",
+    "en": "End at"
+  },
+  "FRIENDS": {
+    "it": "Amici",
+    "en": "Friends"
+  },
+  "FOLLOWERS": {
+    "it": "Seguaci",
+    "en": "Followers"
+  },
+  "FOLLOWING": {
+    "it": "Seguiti",
+    "en": "Following"
+  },
+  "YEAR": {
+    "it": "Anno",
+    "en": "Year"
+  },
+  "RELEASED": {
+    "it": "Rilasciato",
+    "en": "Released"
+  },
+  "GENRES": {
+    "it": "Genere",
+    "en": "Genres"
+  },
+  "STATUS": {
+    "it": "Stato",
+    "en": "Status"
+  },
+  "PLOT": {
+    "it": "Trama",
+    "en": "Plot"
+  },
+  "RATING": {
+    "it": "Valutazione",
+    "en": "Rating"
+  },
+  "VOTES": {
+    "it": "Voti",
+    "en": "Votes"
+  },
+  "WHAT_WANT_SEE": {
+    "it": "Cosa vuoi vedere?",
+    "en": "What do you want to see?"
+  },
+  "ON": {
+    "it": "su",
+    "en": "on"
+  },
+  "FROM": {
+    "it": "Da",
+    "en": "From"
+  },
+  "TO": {
+    "it": "A",
+    "en": "To"
+  },
+  "NOTHING_THIS_WEEK": {
+    "it": "Nulla questa settimana",
+    "en": "Nothing this week"
+  },
+  "THANKS": {
+    "it": "Grazie",
+    "en": "Thanks"
+  },
+  "TIME_ZONE": {
+    "it": "Fuso Orario",
+    "en": "Time Zone"
+  },
+  "ended": {
+    "it": "finito",
+    "en": "ended"
+  },
+  "returning series": {
+    "it": "serie in ritorno",
+    "en": "returning series"
+  },
+  "canceled": {
+    "it": "cancellato",
+    "en": "canceled"
+  },
+  "upcoming": {
+    "it": "imminente",
+    "en": "upcoming"
+  }
+}

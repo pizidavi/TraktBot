@@ -1,0 +1,23 @@
+<?php
+
+$config = [
+  'Telegram'=> [
+    'token'=> ''
+  ],
+  'Trakt'=> [
+    'client_id'=> '',
+    'client_secret'=> '',
+    'redirect_uri'=> ''
+  ],
+  'TMDB'=> [
+    'api_key'=> ''
+  ],
+  'Database'=> [
+    'host'=> 'localhost',
+    'username'=> '',
+    'password'=> '',
+    'database'=> ''
+  ]
+];
+
+ ?>
