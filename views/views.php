@@ -581,7 +581,7 @@ function history($options) {
     $type = isset($value["episode"]) ? "show" : "movie";
     $message .= "▫".('['.$value[$type]["title"].'](https://t.me/TraktTVRobot?start='.base64_encode('i|'.$type.'+'.$value[$type]["ids"]["trakt"].'+'.$origin.'+'.$page).')').(isset($value["episode"]) ? " - s.".$value["episode"]["season"]." ep.".$value["episode"]["number"] : "")."\n";
   
-    $day_runtime += $value[$type]["runtime"];
+    $day_runtime += $value[$value["type"]]["runtime"];
   }
   $message .= ($day_runtime > -1 ? _T("VISION_TIME").": ".minuteToTime($day_runtime)."\n" : "");
 
