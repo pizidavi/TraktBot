@@ -9,7 +9,7 @@
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `intTelegramId` int(11) NOT NULL,
+  `intTelegramId` bigint(20) NOT NULL,
   `intStartMsgId` int(11) DEFAULT NULL,
   `strLanguageCode` varchar(5) DEFAULT 'en',
   `strTimeZone` varchar(5) NOT NULL DEFAULT '0',
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 CREATE TABLE IF NOT EXISTS `elements` (
-  `intTelegramId` int(11) NOT NULL,
+  `intTelegramId` bigint(20) NOT NULL,
   `intTraktId` int(11) NOT NULL,
   `strTraktType` varchar(10) NOT NULL,
   `strTraktTitle` varchar(100) DEFAULT NULL,
