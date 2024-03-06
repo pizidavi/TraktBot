@@ -47,6 +47,7 @@ class TelegramBot {
     $this->data = $this->update[$type]["data"];
     $this->query_id = $this->update[$type]["id"];
     $this->query = $this->update[$type]["query"];
+    $this->chat_type = $this->update[$type]["chat_type"];
     $this->offset = $this->update[$type]["offset"];
   }
 

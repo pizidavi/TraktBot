@@ -15,7 +15,7 @@ class Trakt {
     $this->access_token = $access_token;
   }
 
-  function search($id, $type="movie,show", $extended=NULL) {
+  function search($id, $type="movie,show", $extended="full") {
     /*
     id: TraktID
     type: movie/show/episode (multiple)

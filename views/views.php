@@ -133,7 +133,49 @@ function search($query) {
       $result = $tmdb->getImages(($type == 'show' ? 'tv' : $type), $value[$type]["ids"]["tmdb"], $user->language_code, 'en,null');
       $image = count($result["data"]["posters"]) > 0 ? $tmdb->website_images.$result["data"]["posters"][0]["file_path"] : NULL;
     }
-    $results .= '{"type":"article","id":"'.($bot->query_id+$key).'","title":"'.$value[$type]["title"].'","message_text":"i|'.$type."+".$value[$type]["ids"]["trakt"].'","parse_mode":"Markdown","description":"'.$type.' | '.$value[$type]["year"].'","thumb_url":"'.$image.'"},';
+
+    $data = $value[$type];
+    if (array_search($user->language_code, $data["available_translations"]) !== False) {
+      $result = $trakt->getTranslations($data['ids']['trakt'], ($type.'s'), $user->language_code);
+      $translations = count($result["data"]) > 0 ? $result["data"][0] : NULL;
+      
+      if ($translations !== NULL) {
+        $data["title"] = $translations["title"] != "" ? $translations["title"] : $data["title"];
+        $data["tagline"] = $translations["tagline"] != "" ? $translations["tagline"] : $data["tagline"];
+        $data["overview"] = $translations["overview"] != "" ? $translations["overview"] : $data["overview"];
+      }
+    }
+
+    $message_text = "i|".$type."+".$value[$type]["ids"]["trakt"];
+
+    if ($bot->chat_type === 'private') {
+      $message = "🎬 *".$data["title"]."*\n";
+      $message .= ($data["tagline"] != "" ? "_".$data["tagline"]."_\n" : "")."\n";
+
+      $message .= "*"._T("YEAR")."*: ".$data["year"]."\n";
+      if ($data["released"]) {
+        $message .= "*"._T("RELEASED")."*: ".$data["released"]."\n";
+      }
+      $message .= "*"._T("GENRES")."*: ".implode(", ", $data["genres"])."\n";
+
+      // if ($type == "show") {
+      //   $message .= "*"._T("STATUS")."*: "._T($data["status"])."\n";
+      // }
+
+      $message .= "\n*"._T("PLOT")."*\n".preg_replace('/[^a-zA-Z0-9., àèìòù]/s', '', $data["overview"]);
+      // $message .= "\n*"._T("RATING")."*: ".number_format($data["rating"], 1)." / 10\n";
+      // $message .= "*"._T("VOTES")."*: ".$data["votes"];
+
+      if ($image != NULL) {
+        $message .= " [.](".$image.")";
+      }
+
+      $message .= "\n\n*"._T("MORE_INFO")."*: https://t.me/TraktTVRobot?start=".base64_encode($message_text);
+
+      $message_text = $message;
+    }
+
+    $results .= '{"type":"article","id":"'.($bot->query_id+$key).'","title":"'.$data["title"].'","message_text":"'.$message_text.'","parse_mode":"Markdown","description":"'.$type.' | '.$value[$type]["year"].'","thumb_url":"'.$image.'"},';
   }
   $results = substr($results, 0, strlen($results)-1);
 

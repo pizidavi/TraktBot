@@ -315,6 +315,10 @@
     "it": "Fuso Orario",
     "en": "Time Zone"
   },
+  "MORE_INFO": {
+    "it": "Maggiori Informazioni",
+    "en": "More Info"
+  },
   "ended": {
     "it": "finito",
     "en": "ended"
