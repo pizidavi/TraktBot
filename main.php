@@ -16,7 +16,9 @@ $user = new User($bot->from_id,
 $trakt = new Trakt($config['Trakt']['client_id'],
                    $config['Trakt']['client_secret'],
                    $config['Trakt']['redirect_uri'],
-                   $user->access_token);
+                   $user->id,
+                   $user->access_token,
+                   $user->refresh_token);
 $tmdb = new TMDB($config['TMDB']['api_key']);
 
 

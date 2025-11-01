@@ -6,13 +6,17 @@ class Trakt {
   private $client_id;
   private $client_secret;
   private $redirect_uri;
+  private $user_id;
   private $access_token;
+  private $refresh_token;
 
-  function __construct($client_id, $client_secret, $redirect_uri, $access_token=NULL) {
+  function __construct($client_id, $client_secret, $redirect_uri, $user_id=NULL, $access_token=NULL, $refresh_token=NULL) {
     $this->client_id = $client_id;
     $this->client_secret = $client_secret;
     $this->redirect_uri = $redirect_uri;
+    $this->user_id = $user_id;
     $this->access_token = $access_token;
+    $this->refresh_token = $refresh_token;
   }
 
   function search($id, $type="movie,show", $extended="full") {
@@ -234,7 +238,7 @@ class Trakt {
     return "https://trakt.tv/oauth/authorize?client_id=".$this->client_id."&redirect_uri=".urlencode($this->redirect_uri)."&response_type=code";
   }
 
-  private function getData($url, $POST_data=NULL) {
+  private function getData($url, $POST_data=NULL, $retry=0) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $this->website.$url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -263,6 +267,23 @@ class Trakt {
     $response = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if (($code == 401 || $code == 403) && $retry == 0 && isset($this->refresh_token) && isset($this->user_id)) {
+      // Try to refresh token
+      $refresh_result = $this->refreshToken();
+      if ($refresh_result["code"] == 200) {
+        $new_access = $refresh_result["data"]["access_token"];
+        $new_refresh = $refresh_result["data"]["refresh_token"];
+        $expires = $refresh_result["data"]["created_at"] + $refresh_result["data"]["expires_in"];
+
+        // Update
+        $this->access_token = $new_access;
+        $this->refresh_token = $new_refresh;
+        updateTokens($this->user_id, $new_access, $new_refresh, $expires);
+
+        return $this->getData($url, $POST_data, $retry + 1);
+      }
+    }
 
     return [
       "code"=> $code,
@@ -294,6 +315,42 @@ class Trakt {
       \"client_secret\": \"".$this->client_secret."\",
       \"redirect_uri\": \"".$this->redirect_uri."\",
       \"grant_type\": \"authorization_code\"
+    }");
+
+    $response = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return [
+      "code"=> $code,
+      "data"=> json_decode($response, True)
+    ];
+  }
+
+  function refreshToken() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $this->website."oauth/token");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+    $headers = array(
+      "Content-Type: application/json",
+      "Accept: application/json",
+      "trakt-api-version: 2",
+      "trakt-api-key: ".$this->client_id,
+      // Provide a sensible User-Agent — some WAFs block requests with empty/default agents
+      "User-Agent: TraktBot/1.0"
+    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,
+    "{
+      \"refresh_token\": \"".$this->refresh_token."\",
+      \"client_id\": \"".$this->client_id."\",
+      \"client_secret\": \"".$this->client_secret."\",
+      \"redirect_uri\": \"".$this->redirect_uri."\",
+      \"grant_type\": \"refresh_token\"
     }");
 
     $response = curl_exec($ch);

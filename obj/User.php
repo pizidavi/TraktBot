@@ -7,6 +7,8 @@ class User {
   public $language_code;
   public $time_zone = 0;
   public $access_token = NULL;
+  public $refresh_token = NULL;
+  public $expires_at = NULL;
 
   function __construct($idTelegram, $language_code="en") {
     $user = getUser($idTelegram);
@@ -18,6 +20,8 @@ class User {
       $this->language_code = $user["strLanguageCode"];
       $this->time_zone = (int)$user["strTimeZone"];
       $this->access_token = $user["strAccessToken"];
+      $this->refresh_token = $user["strRefreshToken"];
+      $this->expires_at = $user["intTimeAccessExpires"];
     }
     else {
       $this->language_code = $language_code;

@@ -148,4 +148,15 @@ function deleteElement($idTelegram, $idTrakt, $type) {
   return $result;
 }
 
+function updateTokens($idTelegram, $access_token, $refresh_token, $time_expires) {
+  global $db;
+  $sql = "UPDATE `users`
+          SET strAccessToken = ?,
+              strRefreshToken = ?,
+              intTimeAccessExpires = ?
+          WHERE intTelegramId = ?";
+  $result = $db->query($sql, $access_token, $refresh_token, $time_expires, $idTelegram);
+  return $result;
+}
+
  ?>
