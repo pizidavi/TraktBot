@@ -239,12 +239,21 @@ class Trakt {
     curl_setopt($ch, CURLOPT_URL, $this->website.$url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+
+    $headers = array(
       "Content-Type: application/json",
-      (isset($this->access_token) ? "Authorization: Bearer ".$this->access_token : NULL),
+      "Accept: application/json",
       "trakt-api-version: 2",
-      "trakt-api-key: ".$this->client_id
-    ));
+      "trakt-api-key: ".$this->client_id,
+      // Provide a sensible User-Agent — some WAFs block requests with empty/default agents
+      "User-Agent: TraktBot/1.0"
+    );
+
+    if (isset($this->access_token)) {
+      $headers[] = "Authorization: Bearer ".$this->access_token;
+    }
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     if ($POST_data != NULL) {
       curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -266,9 +275,17 @@ class Trakt {
     curl_setopt($ch, CURLOPT_URL, $this->website."oauth/token");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      "Content-Type: application/json"
-    ));
+
+    $headers = array(
+      "Content-Type: application/json",
+      "Accept: application/json",
+      "trakt-api-version: 2",
+      "trakt-api-key: ".$this->client_id,
+      // Provide a sensible User-Agent — some WAFs block requests with empty/default agents
+      "User-Agent: TraktBot/1.0"
+    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
     curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_POSTFIELDS,
     "{
