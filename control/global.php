@@ -7,13 +7,13 @@ function errorManagement($code) {
     case 200: // Success
     case 201:
     case 204:
-      return True;
+      return true;
     case 401: // Unauthorized
     case 403:
       welcomeMessage();
       die();
     case 404: // Not Found
-      require False;
+      return false;
     case 400: // Internal Error
     case 405:
     case 409:
@@ -54,5 +54,3 @@ function minuteToTime($input) {
   $minute = ceil($remainingMinute);
   return ($days > 0 ? $days." "._T("DAYS")." " : "").($hours > 0 || $days > 0 ? $hours." "._T("HOURS")." " : "").$minute." "._T("MINUTES");
 }
-
- ?>

@@ -11,10 +11,10 @@ $trakt = new Trakt($config['Trakt']['client_id'],
                    $config['Trakt']['redirect_uri']);
 
 
-$code = isset($_GET["code"]) ? $_GET["code"] : NULL;
-$state = isset($_GET["state"]) ? explode("|", base64_decode($_GET["state"])) : NULL;
+$code = isset($_GET["code"]) ? $_GET["code"] : null;
+$state = isset($_GET["state"]) ? explode("|", base64_decode($_GET["state"])) : null;
 
-if ($code == NULL || $state == NULL || count($state)<3) {
+if ($code == null || $state == null || count($state)<3) {
   die(_T("ERROR", "en")); }
 
 $chat_id = $state[0];

@@ -75,7 +75,7 @@ function home() {
     $result = $bot->deleteMessage([
       'message_id'=> $user->start_msg_id
     ]);
-    if ($result == NULL) {
+    if ($result == null) {
       $bot->editMessage([
         'message_id'=> $user->start_msg_id,
         'message'=> _T("DELETED_MESSAGE")
@@ -101,7 +101,7 @@ function search($query) {
   /*
   query: Chiave di ricerda
   */
-  global $bot, $user, $trakt, $tmdb;
+  global $config, $bot, $user, $trakt, $tmdb;
 
   if ($query == "") {
     $results = '{"type":"article","id":"'.($bot->query_id).'","title":"'._T("SEARCH").'","message_text":"Nothing"}';
@@ -128,18 +128,18 @@ function search($query) {
     $type = $value["type"];
     if ($value[$type]["year"] == "") { continue; }
 
-    $image = NULL;
-    if ($value[$type]["ids"]["tmdb"] != NULL) {
+    $image = null;
+    if ($value[$type]["ids"]["tmdb"] != null) {
       $result = $tmdb->getImages(($type == 'show' ? 'tv' : $type), $value[$type]["ids"]["tmdb"], $user->language_code, 'en,null');
-      $image = count($result["data"]["posters"]) > 0 ? $tmdb->website_images.$result["data"]["posters"][0]["file_path"] : NULL;
+      $image = count($result["data"]["posters"]) > 0 ? $tmdb->website_images.$result["data"]["posters"][0]["file_path"] : null;
     }
 
     $data = $value[$type];
-    if (array_search($user->language_code, $data["available_translations"]) !== False) {
+    if (array_search($user->language_code, $data["available_translations"]) !== false) {
       $result = $trakt->getTranslations($data['ids']['trakt'], ($type.'s'), $user->language_code);
-      $translations = count($result["data"]) > 0 ? $result["data"][0] : NULL;
+      $translations = count($result["data"]) > 0 ? $result["data"][0] : null;
       
-      if ($translations !== NULL) {
+      if ($translations !== null) {
         $data["title"] = $translations["title"] != "" ? $translations["title"] : $data["title"];
         $data["tagline"] = $translations["tagline"] != "" ? $translations["tagline"] : $data["tagline"];
         $data["overview"] = $translations["overview"] != "" ? $translations["overview"] : $data["overview"];
@@ -153,7 +153,7 @@ function search($query) {
       $message .= ($data["tagline"] != "" ? "_".$data["tagline"]."_\n" : "")."\n";
 
       $message .= "*"._T("YEAR")."*: ".$data["year"]."\n";
-      if ($data["released"]) {
+      if (!empty($data["released"])) {
         $message .= "*"._T("RELEASED")."*: ".$data["released"]."\n";
       }
       $message .= "*"._T("GENRES")."*: ".implode(", ", $data["genres"])."\n";
@@ -166,11 +166,11 @@ function search($query) {
       // $message .= "\n*"._T("RATING")."*: ".number_format($data["rating"], 1)." / 10\n";
       // $message .= "*"._T("VOTES")."*: ".$data["votes"];
 
-      if ($image != NULL) {
+      if ($image != null) {
         $message .= " [.](".$image.")";
       }
 
-      $message .= "\n\n*"._T("MORE_INFO")."*: https://t.me/TraktTVRobot?start=".base64_encode($message_text);
+      $message .= "\n\n*"._T("MORE_INFO")."*: https://t.me/".$config['Telegram']['name']."?start=".base64_encode($message_text);
 
       $message_text = $message;
     }
@@ -198,14 +198,14 @@ function info($options) {
   global $bot, $user, $trakt, $tmdb;
 
   $options = explode("+", $options);
-  $type = isset($options[0]) ? $options[0] : NULL;
-  $id = isset($options[1]) ? $options[1] : NULL;
-  $origin = isset($options[2]) ? $options[2] : NULL;
-  $origin_page = isset($options[3]) ? $options[3] : NULL;
-  $list_id = isset($options[4]) ? $options[4] : NULL;
-  $list_page = isset($options[5]) ? $options[5] : NULL;
+  $type = isset($options[0]) ? $options[0] : null;
+  $id = isset($options[1]) ? $options[1] : null;
+  $origin = isset($options[2]) ? $options[2] : null;
+  $origin_page = isset($options[3]) ? $options[3] : null;
+  $list_id = isset($options[4]) ? $options[4] : null;
+  $list_page = isset($options[5]) ? $options[5] : null;
 
-  if ($id == NULL) {
+  if ($id == null) {
     $bot->answerCallbackQuery([
       'message'=> _T("ERROR"),
       'show_alert'=> 'true'
@@ -234,11 +234,11 @@ function info($options) {
 
   $data = $result["data"][0][$type];
 
-  if (array_search($user->language_code, $data["available_translations"]) !== False) {
+  if (array_search($user->language_code, $data["available_translations"]) !== false) {
     $result = $trakt->getTranslations($id, ($type.'s'), $user->language_code);
-    $translations = count($result["data"]) > 0 ? $result["data"][0] : NULL;
+    $translations = count($result["data"]) > 0 ? $result["data"][0] : null;
 
-    if ($translations !== NULL) {
+    if ($translations !== null) {
       $data["title"] = $translations["title"] != "" ? $translations["title"] : $data["title"];
       $data["tagline"] = $translations["tagline"] != "" ? $translations["tagline"] : $data["tagline"];
       $data["overview"] = $translations["overview"] != "" ? $translations["overview"] : $data["overview"];
@@ -249,7 +249,7 @@ function info($options) {
   $message .= ($data["tagline"] != "" ? "_".$data["tagline"]."_\n" : "")."\n";
 
   $message .= "*"._T("YEAR")."*: ".$data["year"]."\n";
-  if ($data["released"]) {
+  if (!empty($data["released"])) {
     $message .= "*"._T("RELEASED")."*: ".$data["released"]."\n"; }
   $message .= "*"._T("GENRES")."*: ".implode(", ", $data["genres"])."\n";
 
@@ -260,17 +260,17 @@ function info($options) {
   $message .= "*"._T("RATING")."*: ".number_format($data["rating"], 1)." / 10\n";
   $message .= "*"._T("VOTES")."*: ".$data["votes"];
 
-  if ($data["ids"]["tmdb"] != NULL) {
+  if ($data["ids"]["tmdb"] != null) {
     $result = $tmdb->getImages(($type == 'show' ? 'tv' : $type), $data["ids"]["tmdb"], $user->language_code, 'en,null');
-    $image = count($result["data"]["posters"]) > 0 ? $tmdb->website_images.$result["data"]["posters"][0]["file_path"] : NULL;
+    $image = count($result["data"]["posters"]) > 0 ? $tmdb->website_images.$result["data"]["posters"][0]["file_path"] : null;
 
-    if ($image != NULL) {
+    if ($image != null) {
       $message .= " [.](".$image.")";
     }
   }
 
   $button = "";
-  if ($type == "show" || ($type == "movie" && strtotime($data["released"]) > strtotime('now'))) {
+  if ($type == "show" || ($type == "movie" && !empty($data["released"]) && strtotime($data["released"]) > strtotime('now'))) {
     $result = getElement($user->id, $id, $type);
     $action = ($result->rowCount() > 0 ? 'rem' : 'add');
     $button .= '[{"text":"'.($action == 'add' ? "🔔 "._T("ADD") : "🔕"._T("REMOVE") )." "._T("REMINDER").'","callback_data":"erm|'.$action.'+'.$type.'+'.$id.'+'.$origin.'+'.$origin_page.'+'.$list_id.'+'.$list_page.'"}],';
@@ -310,12 +310,12 @@ function editWatch($origin, $options) {
   global $bot, $user, $trakt, $tmdb;
 
   $options = explode("+", $options);
-  $action = isset($options[0]) ? $options[0] : NULL;
-  $type = isset($options[1]) ? $options[1] : NULL;
-  $id = isset($options[2]) ? $options[2] : NULL;
+  $action = isset($options[0]) ? $options[0] : null;
+  $type = isset($options[1]) ? $options[1] : null;
+  $id = isset($options[2]) ? $options[2] : null;
   $info_data = implode("+", array_slice($options, 3)); 
 
-  if ($id == NULL) {
+  if ($id == null) {
     $bot->answerCallbackQuery([
       'message'=> _T("ERROR"),
       'show_alert'=> 'true'
@@ -331,20 +331,20 @@ function editWatch($origin, $options) {
 
   if ($type == "show-episode") {
     $result = $trakt->getWatchedProgress($id);
-    $episodes = count($result["data"]) > 0 ? $result["data"]["next_episode"] : NULL;
+    $episodes = count($result["data"]) > 0 ? $result["data"]["next_episode"] : null;
     
     $type = "episode";
-    $id = ($episodes != NULL ? $episodes["ids"]["trakt"] : NULL);
-    $number = ($episodes != NULL ? $episodes["number"] : NULL);
+    $id = ($episodes != null ? $episodes["ids"]["trakt"] : null);
+    $number = ($episodes != null ? $episodes["number"] : null);
 
-    if ($id == NULL) {
+    if ($id == null) {
       $bot->answerCallbackQuery([
         'message'=> _T("NO_NEXT_EPISODE_FOUND")
       ]);
       return; }
   }
 
-  $result = NULL;
+  $result = null;
   if ($action == 'add') {
     if ($origin == 'ewl') {
       $result = $trakt->addToWatchlist(($type.'s'), $id);
@@ -360,7 +360,7 @@ function editWatch($origin, $options) {
     }
   }
 
-  if ($result == NULL) {  // Operation not supported
+  if ($result == null) {  // Operation not supported
     $bot->answerCallbackQuery([
       'message'=> _T("ERROR"),
       'show_alert'=> 'true'
@@ -397,10 +397,10 @@ function checkin($options) {
   global $bot, $user, $trakt, $tmdb;
 
   $options = explode("+", $options);
-  $type = isset($options[0]) ? $options[0] : NULL;
-  $id = isset($options[1]) ? $options[1] : NULL;
+  $type = isset($options[0]) ? $options[0] : null;
+  $id = isset($options[1]) ? $options[1] : null;
 
-  if ($id == NULL) {
+  if ($id == null) {
     $bot->answerCallbackQuery([
       'message'=> _T("ERROR"),
       'show_alert'=> 'true'
@@ -409,12 +409,12 @@ function checkin($options) {
 
   if ($type == "show-episode") {
     $result = $trakt->getWatchedProgress($id);
-    $episodes = count($result["data"]) > 0 ? $result["data"]["next_episode"] : NULL;
+    $episodes = count($result["data"]) > 0 ? $result["data"]["next_episode"] : null;
     
     $type = "episode";
-    $id = ($episodes != NULL ? $episodes["ids"]["trakt"] : NULL);
+    $id = ($episodes != null ? $episodes["ids"]["trakt"] : null);
 
-    if ($id == NULL) {
+    if ($id == null) {
       $bot->answerCallbackQuery([
         'message'=> _T("NO_NEXT_EPISODE_FOUND")
       ]);
@@ -442,12 +442,12 @@ function editReminder($options) {
   global $bot, $user, $trakt, $tmdb;
 
   $options = explode("+", $options);
-  $action = isset($options[0]) ? $options[0] : NULL;
+  $action = isset($options[0]) ? $options[0] : null;
   $type = isset($options[1]) ? $options[1] : "show";
-  $id = isset($options[2]) ? $options[2] : NULL;
+  $id = isset($options[2]) ? $options[2] : null;
   $info_data = implode("+", array_slice($options, 3));
 
-  if ($action == NULL || $id == NULL) {
+  if ($action == null || $id == null) {
     $bot->answerCallbackQuery([
       'message'=> _T("ERROR"),
       'show_alert'=> 'true'
@@ -494,11 +494,11 @@ function watch($origin, $options) {
   global $bot, $user, $trakt, $tmdb;
 
   $options = explode("+", $options);
-  $type = isset($options[0]) ? $options[0] : NULL;
-  $page = isset($options[1]) ? $options[1] : 0;
+  $type = isset($options[0]) && $options[0] !== "" ? $options[0] : null;
+  $page = (int)(isset($options[1]) ? $options[1] : 0);
 
   $message = ($origin == "wl" ? "📺 *"._T("WATCHLIST")."*" : "👀 *"._T("WATCHED")."*");
-  if ($type == NULL) {
+  if ($type == null) {
     $message .= "\n"._T("WHAT_WANT_SEE");
     $button = '[{"text":"'._T("MOVIES").'","callback_data":"'.$origin.'|movie+0"},{"text":"'._T("SHOWS").'","callback_data":"'.$origin.'|show+0"}],'.
         '[{"text":"⬅ '._T("BACK").'","callback_data":"home"}]';
@@ -545,22 +545,22 @@ function custom_list($options) {
   $options = explode("+", $options);
   $type = "all";
   $page = isset($options[1]) ? $options[1] : 0;
-  $list_id = isset($options[2]) ? $options[2] : NULL;
-  $list_page = isset($options[3]) ? $options[3] : NULL;
+  $list_id = isset($options[2]) ? $options[2] : null;
+  $list_page = isset($options[3]) ? $options[3] : null;
 
-  $result = ($list_id == NULL ? $trakt->getCustomLists() : $trakt->getCustomList($list_id, $type));
+  $result = ($list_id == null ? $trakt->getCustomLists() : $trakt->getCustomList($list_id, $type));
   errorManagement($result["code"]);
 
   $data = $result["data"];
 
   $message = "📑 *"._T("CUSTOM_LIST")."*";
 
-  $global_page = ($list_page != NULL ? $list_page : $page);
+  $global_page = ($list_page != null ? $list_page : $page);
   $button = "";
   for ($i=$global_page*5; $i < ($global_page+1)*5 && $i < count($data); $i++) {
     $value = $data[$i];
 
-    if ($list_id == NULL) {
+    if ($list_id == null) {
       $button .= '[{"text":"'.$value["name"].'","callback_data":"'.$origin.'|+'.$page.'+'.$value["ids"]["trakt"].'+0"}],';
     }
     else {
@@ -579,9 +579,9 @@ function custom_list($options) {
     }
   }
 
-  $button .= '[{"text":"⬅ '._T("BACK").'","callback_data":"'.($list_id == NULL ? 'home' : ''.$origin.'|+'.$page).'"}';
-  $button .= $global_page > 0 ? ',{"text":"⬅","callback_data":"'.$origin.'|+'.($list_id == NULL ? $page-1 : $page).'+'.$list_id.'+'.($list_page-1).'"}' : "";
-  $button .= count($data) > 5 && ($global_page+1)*5 < count($data) ? ',{"text":"➡","callback_data":"'.$origin.'|+'.($list_id == NULL ? $page+1 : $page).'+'.$list_id.'+'.($list_page+1).'"}]' : "]";
+  $button .= '[{"text":"⬅ '._T("BACK").'","callback_data":"'.($list_id == null ? 'home' : ''.$origin.'|+'.$page).'"}';
+  $button .= $global_page > 0 ? ',{"text":"⬅","callback_data":"'.$origin.'|+'.($list_id == null ? $page-1 : $page).'+'.$list_id.'+'.($list_page-1).'"}' : "";
+  $button .= count($data) > 5 && ($global_page+1)*5 < count($data) ? ',{"text":"➡","callback_data":"'.$origin.'|+'.($list_id == null ? $page+1 : $page).'+'.$list_id.'+'.($list_page+1).'"}]' : "]";
 
   $bot->editMessage([
     'message_id'=> $user->start_msg_id,
@@ -595,13 +595,13 @@ function history($options) {
   /*
   0 : page
   */
-  global $bot, $user, $trakt, $tmdb;
+  global $config, $bot, $user, $trakt, $tmdb;
 
   $origin = "history";
 
   $options = explode("+", $options);
   $type = "all";
-  $page = isset($options[1]) ? $options[1] : (isset($options[0]) ? $options[0] : 0);
+  $page = (int)(isset($options[1]) ? $options[1] : (isset($options[0]) && $options[0] !== "" ? $options[0] : 0));
 
   $result = $trakt->getHistory($type, $page+1, "full");
   errorManagement($result["code"]);
@@ -610,7 +610,7 @@ function history($options) {
 
   $message = "🕛 *"._T("HISTORY")."*\n";
 
-  $last_date = NULL;
+  $last_date = null;
   $day_runtime = -1;
   foreach ($data as $key => $value) {
     $watched_at = date("d-m-Y", strtotime($value["watched_at"]));
@@ -621,7 +621,7 @@ function history($options) {
       $day_runtime = 0; }
 
     $type = isset($value["episode"]) ? "show" : "movie";
-    $message .= "▫".('['.$value[$type]["title"].'](https://t.me/TraktTVRobot?start='.base64_encode('i|'.$type.'+'.$value[$type]["ids"]["trakt"].'+'.$origin.'+'.$page).')').(isset($value["episode"]) ? " - s.".$value["episode"]["season"]." ep.".$value["episode"]["number"] : "")."\n";
+    $message .= "▫".('['.$value[$type]["title"].'](https://t.me/'.$config['Telegram']['name'].'?start='.base64_encode('i|'.$type.'+'.$value[$type]["ids"]["trakt"].'+'.$origin.'+'.$page).')').(isset($value["episode"]) ? " - s.".$value["episode"]["season"]." ep.".$value["episode"]["number"] : "")."\n";
   
     $day_runtime += $value[$value["type"]]["runtime"];
   }
@@ -644,13 +644,13 @@ function calendar($options) {
   /*
   0 : days
   */
-  global $bot, $user, $trakt, $tmdb;
+  global $config, $bot, $user, $trakt, $tmdb;
 
   $origin = "calendar";
 
   $options = explode("+", $options);
   $type = "show";
-  $page = isset($options[1]) ? $options[1] : (isset($options[0]) ? $options[0] : 0);
+  $page = (int)(isset($options[1]) ? $options[1] : (isset($options[0]) && $options[0] !== "" ? $options[0] : 0));
 
   $datetime = strtotime("this week +".(7*$page)." days");
   $datetime_end = strtotime("this week +".(7*$page+6)." days");
@@ -667,7 +667,7 @@ function calendar($options) {
     $message .= "\n"._T("NOTHING_THIS_WEEK");
   }
   else {
-    $last_date = NULL;
+    $last_date = null;
     foreach ($data as $key => $value) {
       $first_aired = date("d-m-Y", strtotime($value["first_aired"]." ".$user->time_zone." hour"));
       if ($first_aired != $last_date) {
@@ -675,7 +675,7 @@ function calendar($options) {
         $last_date = $first_aired; }
   
       $result = getElement($user->id, $value["show"]["ids"]["trakt"], $type);
-      $message .= ($result->rowCount() > 0 ? "🔔" : "▫").('['.$value[$type]["title"].'](https://t.me/TraktTVRobot?start='.base64_encode('i|'.$type.'+'.$value[$type]["ids"]["trakt"].'+'.$origin.'+'.$page).')')." - s.".$value["episode"]["season"]." ep.".$value["episode"]["number"]."\n";
+      $message .= ($result->rowCount() > 0 ? "🔔" : "▫").('['.$value[$type]["title"].'](https://t.me/'.$config['Telegram']['name'].'?start='.base64_encode('i|'.$type.'+'.$value[$type]["ids"]["trakt"].'+'.$origin.'+'.$page).')')." - s.".$value["episode"]["season"]." ep.".$value["episode"]["number"]."\n";
     }
   }
 
@@ -741,11 +741,11 @@ function reminder($options) {
   $origin = 'reminder';
 
   $options = explode("+", $options);
-  $type = isset($options[0]) ? $options[0] : NULL;
-  $page = isset($options[1]) ? $options[1] : 0;
+  $type = isset($options[0]) && $options[0] !== "" ? $options[0] : null;
+  $page = (int)(isset($options[1]) ? $options[1] : 0);
 
   $message = "🔔 *"._T("REMINDERS")."*";
-  if ($type == NULL) {
+  if ($type == null) {
     $message .= "\n"._T("WHAT_WANT_SEE");
     $button = '[{"text":"'._T("MOVIES").'","callback_data":"'.$origin.'|movie+0"},{"text":"'._T("SHOWS").'","callback_data":"'.$origin.'|show+0"}],'.
         '[{"text":"⬅ '._T("BACK").'","callback_data":"settings"}]';
@@ -786,7 +786,7 @@ function settings($options) {
   $origin = "settings";
 
   $options = explode("+", $options);
-  $action = isset($options[0]) ? $options[0] : NULL;
+  $action = isset($options[0]) ? $options[0] : null;
 
   switch ($action) {
     case 'lang':
@@ -850,4 +850,3 @@ function timezone($options) {
   ]);
 }
 
- ?>

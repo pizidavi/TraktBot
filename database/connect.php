@@ -15,7 +15,7 @@ class Database {
     $this->db_name = $db_name;
 
     try {
-      $this->conn = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password, array(PDO::ATTR_PERSISTENT => true));
+      $this->conn = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password, [PDO::ATTR_PERSISTENT => true]);
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->conn->exec("set names utf8");
     }
@@ -24,25 +24,17 @@ class Database {
     }
   }
 
-  function query() {
-    $query = func_get_arg(0);
-    $params = array();
-
-    for ($i=1; $i < count(func_get_args()); $i++) {
-      $params[] = func_get_arg($i);
-    }
+  function query(string $query, mixed ...$params) {
     $result = $this->conn->prepare($query);
     $result->execute($params);
     return $result;
   }
 
-  function queryBind() {
-    $query = func_get_arg(0);
-    $params = func_get_arg(1);
+  function queryBind(string $query, array $params) {
     $result = $this->conn->prepare($query);
 
     foreach ($params as $key => &$value) {
-      $result->bindParam((gettype($key) == "integer" ? $key+1 : $key), $value);
+      $result->bindParam((is_int($key) ? $key + 1 : $key), $value);
     }
     $result->execute();
     return $result;
@@ -54,5 +46,3 @@ class Database {
   }
 
 }
-
- ?>

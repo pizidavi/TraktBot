@@ -65,14 +65,14 @@ function setUser($idTelegram, $start_msg_id, $language_code, $access_token, $ref
             strRefreshToken=:refresh,
             intTimeAccessExpires=:expires,
             boolDelete=0";
-  $result = $db->queryBind($sql, array(
+  $result = $db->queryBind($sql, [
     ":id"=> $idTelegram,
     ":message_id"=> $start_msg_id,
     ":lang"=> $language_code,
     ":access"=> $access_token,
     ":refresh"=> $refresh_token,
     ":expires"=> $time_expires,
-  ));
+  ]);
   return $result;
 }
 
@@ -82,12 +82,12 @@ function setElement($idTelegram, $idTrakt, $type, $title) {
           VALUES (:id, :idTrakt, :type, :title)
           ON DUPLICATE KEY UPDATE
             intTelegramId=:id";
-  $result = $db->queryBind($sql, array(
+  $result = $db->queryBind($sql, [
     ":id"=> $idTelegram,
     ":idTrakt"=> $idTrakt,
     ":type"=> $type,
     ":title"=> $title,
-  ));
+  ]);
   return $result;
 }
 
@@ -159,4 +159,3 @@ function updateTokens($idTelegram, $access_token, $refresh_token, $time_expires)
   return $result;
 }
 
- ?>

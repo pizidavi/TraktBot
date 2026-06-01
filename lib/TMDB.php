@@ -10,7 +10,7 @@ class TMDB {
     $this->api_key = $api_key;
   }
 
-  function getDetails($type, $id, $append_to_response=NULL) {
+  function getDetails($type, $id, $append_to_response=null) {
     /*
     type: movie / tv
     id: tmdb id
@@ -19,7 +19,7 @@ class TMDB {
     return $this->getData("/$type/$id/images?".($append_to_response ? 'append_to_response='.$append_to_response : ''));
   }
 
-  function getImages($type, $id, $language="null", $include_language=NULL) {
+  function getImages($type, $id, $language="null", $include_language=null) {
     /*
     type: movie / tv
     id: tmdb id
@@ -31,12 +31,12 @@ class TMDB {
 
   private function getData($link) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $this->website.$link.(strpos($link, '?') === False ? '?' : '&')."api_key=".$this->api_key);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    curl_setopt($ch, CURLOPT_URL, $this->website.$link.(strpos($link, '?') === false ? '?' : '&')."api_key=".$this->api_key);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Content-Type: application/json"
-    ));
+    ]);
 
     $response = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -44,10 +44,8 @@ class TMDB {
 
     return [
       "code"=> $code,
-      "data"=> json_decode($response, True)
+      "data"=> json_decode($response, true)
     ];
   }
 
 }
-
-?>

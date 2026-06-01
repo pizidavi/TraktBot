@@ -2,13 +2,13 @@
 
 class User {
 
-  public $id = NULL;
-  public $start_msg_id = NULL;
+  public $id = null;
+  public $start_msg_id = null;
   public $language_code;
   public $time_zone = 0;
-  public $access_token = NULL;
-  public $refresh_token = NULL;
-  public $expires_at = NULL;
+  public $access_token = null;
+  public $refresh_token = null;
+  public $expires_at = null;
 
   function __construct($idTelegram, $language_code="en") {
     $user = getUser($idTelegram);
@@ -34,24 +34,24 @@ class User {
   }
 
   function isLogged() {
-    return $this->id != NULL;
+    return $this->id != null;
   }
 
   function setStartMsgId($start_msg_id) {
     $result = setStartMsgId($this->id, $start_msg_id);
-    $this->start_msg_id = ($result == True ? $start_msg_id : $this->start_msg_id);
+    $this->start_msg_id = ($result == true ? $start_msg_id : $this->start_msg_id);
     return $result;
   }
 
   function setLanguageCode($language_code) {
     $result = setLanguageCode($this->id, $language_code);
-    $this->language_code = ($result == True ? $language_code : $this->language_code);
+    $this->language_code = ($result == true ? $language_code : $this->language_code);
     return $result;
   }
 
   function setTimeZone($time_zone) {
     $result = setTimeZone($this->id, $time_zone);
-    $this->time_zone = ($result == True ? $time_zone : $this->time_zone);
+    $this->time_zone = ($result == true ? $time_zone : $this->time_zone);
     return $result;
   }
 
@@ -61,5 +61,3 @@ class User {
   }
 
 }
-
- ?>

@@ -1,6 +1,6 @@
 <?php
 
-$langs = json_decode(file_get_contents("lang/langs.json"), True);
+$langs = json_decode(file_get_contents("lang/langs.json"), true);
 
 $supported_langs = [
   "it",
@@ -31,5 +31,3 @@ function nextLang($lang="en") {
   $key = $key+1 > count($supported_langs)-1 ? 0 : $key+1;
   return $supported_langs[$key];
 }
-
- ?>

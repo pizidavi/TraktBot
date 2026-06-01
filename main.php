@@ -24,7 +24,7 @@ $tmdb = new TMDB($config['TMDB']['api_key']);
 
 if ($bot->method == "message") {
 
-  if ($user->isLogged() && $user->start_msg_id != NULL) {
+  if ($user->isLogged() && $user->start_msg_id != null) {
     $bot->deleteMessage();
     $user->updateLastAction();
 
@@ -40,7 +40,7 @@ if ($bot->method == "message") {
         info($action[1]);
         break;
       default:
-        if (strpos($action[0], '/start ') !== False) {
+        if (strpos($action[0], '/start ') !== false) {
           $action[0] = base64_decode(explode(" ", $action[0])[1]);
 
           $a = explode("|", $action[0]);
@@ -74,47 +74,48 @@ elseif ($bot->method == "callback_query") {
     $user->updateLastAction();
 
     $action = explode("|", $bot->data);
+    $param = $action[1] ?? "";
     switch ($action[0]) {
       case "home":
         home();
         break;
       case "i":
-        info($action[1]);
+        info($param);
         break;
       case "ewl":
       case "ewd":
-        editWatch($action[0], $action[1]);
+        editWatch($action[0], $param);
         break;
       case "checkin":
-        checkin($action[1]);
+        checkin($param);
         break;
       case "wl":
       case "wd":
-        watch($action[0], $action[1]);
+        watch($action[0], $param);
         break;
       case "cl":
-        custom_list($action[1]);
+        custom_list($param);
         break;
       case "history":
-        history($action[1]);
+        history($param);
         break;
       case "calendar":
-        calendar($action[1]);
+        calendar($param);
         break;
       case "profile":
-        profile($action[1]);
+        profile($param);
         break;
       case "erm":
-        editReminder($action[1]);
+        editReminder($param);
         break;
       case "reminder":
-        reminder($action[1]);
+        reminder($param);
         break;
       case "settings":
-        settings($action[1]);
+        settings($param);
         break;
       case "timezone":
-        timezone($action[1]);
+        timezone($param);
         break;
       default:
         $bot->answerCallbackQuery([

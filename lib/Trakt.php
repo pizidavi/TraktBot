@@ -10,7 +10,7 @@ class Trakt {
   private $access_token;
   private $refresh_token;
 
-  function __construct($client_id, $client_secret, $redirect_uri, $user_id=NULL, $access_token=NULL, $refresh_token=NULL) {
+  function __construct($client_id, $client_secret, $redirect_uri, $user_id=null, $access_token=null, $refresh_token=null) {
     $this->client_id = $client_id;
     $this->client_secret = $client_secret;
     $this->redirect_uri = $redirect_uri;
@@ -55,7 +55,7 @@ class Trakt {
     return $this->getData("sync/watchlist/$type/$sort");
   }
 
-  function getWatched($type, $extended=NULL) {
+  function getWatched($type, $extended=null) {
     /*
     type: movies/shows/.
     extended: noseasons
@@ -90,7 +90,7 @@ class Trakt {
     return $this->getData("users/me/lists/$id/items/$type");
   }
 
-  function getHistory($type="all", $page=1, $extended=NULL) {
+  function getHistory($type="all", $page=1, $extended=null) {
     /*
     type: all/movies/shows/.
     page: numero pagina
@@ -110,7 +110,7 @@ class Trakt {
     return $this->getData("calendars/my/$type/$start_date/$days");
   }
 
-  function getGlobalCalendar($type, $start_date="", $days=1, $extended=NULL) {
+  function getGlobalCalendar($type, $start_date="", $days=1, $extended=null) {
     /*
     type: movies/shows
     start_date: YYYY-mm-dd
@@ -146,9 +146,9 @@ class Trakt {
     foreach ($results["data"] as $key => $value) {
       $type = $value["type"];
       if ($value[$type]["ids"]["trakt"] == $id) {
-        return True; }
+        return true; }
     }
-    return False;
+    return false;
   }
 
   function addToWatchlist($type, $id) {
@@ -238,11 +238,11 @@ class Trakt {
     return "https://trakt.tv/oauth/authorize?client_id=".$this->client_id."&redirect_uri=".urlencode($this->redirect_uri)."&response_type=code";
   }
 
-  private function getData($url, $POST_data=NULL, $retry=0) {
+  private function getData($url, $POST_data=null, $retry=0) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $this->website.$url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
 
     $headers = array(
       "Content-Type: application/json",
@@ -259,8 +259,8 @@ class Trakt {
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    if ($POST_data != NULL) {
-      curl_setopt($ch, CURLOPT_POST, TRUE);
+    if ($POST_data != null) {
+      curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $POST_data);
     }
 
@@ -287,15 +287,15 @@ class Trakt {
 
     return [
       "code"=> $code,
-      "data"=> json_decode($response, True)
+      "data"=> json_decode($response, true)
     ];
   }
 
   function login($code) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $this->website."oauth/token");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
 
     $headers = array(
       "Content-Type: application/json",
@@ -307,7 +307,7 @@ class Trakt {
     );
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS,
     "{
       \"code\": \"$code\",
@@ -323,15 +323,15 @@ class Trakt {
 
     return [
       "code"=> $code,
-      "data"=> json_decode($response, True)
+      "data"=> json_decode($response, true)
     ];
   }
 
   function refreshToken() {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $this->website."oauth/token");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
 
     $headers = array(
       "Content-Type: application/json",
@@ -343,7 +343,7 @@ class Trakt {
     );
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS,
     "{
       \"refresh_token\": \"".$this->refresh_token."\",
@@ -359,10 +359,8 @@ class Trakt {
 
     return [
       "code"=> $code,
-      "data"=> json_decode($response, True)
+      "data"=> json_decode($response, true)
     ];
   }
 
 }
-
-?>

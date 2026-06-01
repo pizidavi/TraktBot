@@ -2,6 +2,7 @@
 
 $config = [
   'Telegram'=> [
+    'name'=> 'TraktTVRobot',
     'token'=> ''
   ],
   'Trakt'=> [
@@ -19,5 +20,3 @@ $config = [
     'database'=> ''
   ]
 ];
-
- ?>
